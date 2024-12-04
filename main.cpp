@@ -51,7 +51,6 @@ private:
         ifstream file(FILENAME);
         if (file.is_open())
         {
-            Book book;
             string line;
             while (getline(file, line))
             {
@@ -61,6 +60,10 @@ private:
                 size_t pos4 = line.find("|", pos3 + 1);
                 size_t pos5 = line.find("|", pos4 + 1);
 
+                if (pos1 == string::npos || pos2 == string::npos || pos3 == string::npos || pos4 == string::npos || pos5 == string::npos)
+                    throw invalid_argument("Malformed line");
+
+                Book book;
                 book.id = stoi(line.substr(0, pos1));
                 book.title = line.substr(pos1 + 1, pos2 - pos1 - 1);
                 book.author = line.substr(pos2 + 1, pos3 - pos2 - 1);
